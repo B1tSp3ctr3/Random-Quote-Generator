@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 
+import AuthContext from "./app/auth/context";
+import Screen from "./app/components/Screen";
+import navigationTheme from "./app/Navigation/navigationTheme";
+import TabNavigator from "./app/Navigation/TabNavigator";
+import AuthNavigator from "./app/Navigation/AuthNavigator";
 export default function App() {
+  const [user, setUser] = useState();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <Screen>
+        <NavigationContainer theme={navigationTheme}>
+          {user ? <TabNavigator /> : <AuthNavigator />}
+        </NavigationContainer>
+      </Screen>
+    </AuthContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// export default function App() {
+//   return <NewQuoteScreen />;
+// }
